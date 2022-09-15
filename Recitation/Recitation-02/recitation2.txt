@@ -1,0 +1,30 @@
+1.
+Y = !(A & B) | ((A & B) & !C)
+
+| A | B | C | Y |
+-----------------
+| 0 | 0 | 0 | 1 |
+| 0 | 0 | 1 | 1 |
+| 0 | 1 | 0 | 1 |
+| 0 | 1 | 1 | 1 |
+| 1 | 0 | 0 | 1 |
+| 1 | 0 | 1 | 1 |
+| 1 | 1 | 0 | 1 |
+| 1 | 1 | 1 | 0 |
+
+3.
+(a) 0010 0010
+(b) 1101 1110
+
+4.
+(a) 211
+(b) 8
+(c) 255
+
+5.
+(a) -45
+(b) 8
+(c) -1
+
+6.
+After a certain time of iterations the value for `i` is going to exceed the maximum value that can be stored in an `int` variable and cause an overflow, which is going to bring the value of `i` to the negative minimum, breaking the condition that `i > 0`.

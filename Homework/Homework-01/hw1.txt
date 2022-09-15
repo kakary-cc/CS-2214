@@ -1,0 +1,40 @@
+1.
+| A | B | C | Y |
+-----------------
+| 0 | 0 | 0 | 1 |
+| 0 | 0 | 1 | 1 |
+| 0 | 1 | 0 | 0 |
+| 0 | 1 | 1 | 1 |
+| 1 | 0 | 0 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 0 |
+| 1 | 1 | 1 | 1 |
+
+2.
+Y = (~A & ~B) | (B & C)
+
+4.
+I disagree with Rufus. Because `x` is an unsigned variable, `x--` is going to assign the highest possible value to `x` when `x` equals 0, therefore breaking the condition `x <= 79`.
+
+5.
+(a) 0011 0101
+(b) 1100 1011
+(c) 1011 0011
+(d) 1111 0100
+
+6.
+(a) 127
+(b) -64
+(c) -32
+(d) 85
+
+7.
+(a) 89
+(b) -127
+(c) -10
+(d) 56
+
+8.
+(a) 89
+(b) 129
+(c) 44
