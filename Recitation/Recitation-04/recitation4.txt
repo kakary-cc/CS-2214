@@ -1,0 +1,49 @@
+(1)
+A | State | B
+-------------
+1 1 11
+0 1 11
+0 1 11
+9 9 3
+8 9 3
+15 15 5
+0 15 5
+
+(2)
+Move value from register 1 to register 3.
+Add 0b0101 to register 2.
+Compare register 1 to register 3, store the result in zero-flag.
+Jump 3 lines  if zero-flag is HIGH.
+
+(3)
+Move 2 into register 0;
+Move 4 into register 1;
+Add the value of register 0 into register 1;
+Subtract the value of register 1 by 1.
+---
+Reg0 = 2
+Reg1 = 5
+
+(4)
+1010 00 10 1100
+1101 00 01 0110
+1111 00 11 1101
+0011 00 00 0010
+
+(5)
+add , Rg0, Rg1, 4'b0000
+jump, RXX, RXX, 4'b0110
+sub , Rg2, Rg3, 4'b0000
+movi, RXX, Rg2, 4'b1011
+
+(6)
+a. Rg0 = 4, Rg1 = 8
+b. Rg0 = 5, Rg1 = 0
+
+(7)
+movi, RXX, Rg3, 4'b1111
+cmpi, RXX, Rg3, 4'b0000
+jz  , RXX, RXX, 4'b0000
+subi, RXX, Rg3, 4'b0001
+jmp , RXX, RXX, 4'b1011
+...
