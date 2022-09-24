@@ -1,0 +1,15 @@
+(5)
+x ^ 0b10
+
+(6)
+x & ~(0b1 << 4)
+
+(7)
+((x & 0b111) << 6) + ((x & 0b111) << 3) + (x & 0b111)
+
+(8)
+(x & 0b101100000) == 0b100100000
+
+(9)
+No.
+`0 && func()` and `0 & func()` are different as in the first one `func()` will not be executed.
