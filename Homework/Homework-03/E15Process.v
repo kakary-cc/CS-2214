@@ -30,7 +30,7 @@ module E15Process(input clk);
    initial
      begin
 
-        `include "program1.v"   // load the program
+        `include "multiplier.v"   // load the program
         
         pc = 4'b0000;           // initialize the program counter
         
@@ -61,20 +61,20 @@ module E15Process(input clk);
 
    // pcIncr is a 4-bit value representing the value
    // that is to be added to the program counter
-   assign pcIncr = 4'bz; // TODO
+   assign pcIncr = (opCode == jmp) ? immData : (opCode == jz) ? (zFlag ? immData : 4'b0001) : (opCode == jnz) ? (zFlag ? 4'b0001 : immData) : 4'b0001; // Modified
 
    // storeVal is a 4-bit value representing the value that
    // is to be stored in the destination register, for
    // instructions that write to it
-   assign storeVal = 4'bz; // TODO
+   assign storeVal = (opCode == movi) ? immData : (opCode != mov) ? aluOutput : (src == Rg0) ? r0 : (src == Rg1) ? r1 : (src == Rg2) ? r2 : r3; // Modified
 
    // operand1 is a 4-bit value represnting the first operand
    // to be passed into the ALU
-   assign operand1 = 4'bz; // TODO
+   assign operand1 = ((opCode & 4'b0001) == 4'b0001) ? immData : (src == Rg0) ? r0 : (src == Rg1) ? r1 : (src == Rg2) ? r2 : r3; // Modified
 
    // operand1 is a 4-bit value represnting the second operand
    // to be passed into the ALU
-   assign operand2 = 4'bz; // TODO
+   assign operand2 = (dst == Rg0) ? r0 : (dst == Rg1) ? r1 : (dst == Rg2) ? r2 : r3; // Modified
 
    always @(posedge clk)
       begin 
