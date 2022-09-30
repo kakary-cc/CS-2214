@@ -33,7 +33,7 @@ module four_bit_adder_subtractor(A, B, Op, S, Cout);
 	
    // Here we are just instantiating four separate full adder modules
    // connected by wires. 
-   full_adder_nodelay Op ? FA1(A[0], signed_B[0], 1'b1, S[0], C1) : FA1(A[0], signed_B[0], 1'b0, S[0], C1);
+   full_adder_nodelay FA1(A[0], signed_B[0], Op ? 1'b1 : 1'b0, S[0], C1);
    full_adder_nodelay FA2(A[1], signed_B[1], C1,  S[1], C2);
    full_adder_nodelay FA3(A[2], signed_B[2], C2,  S[2], C3);
    full_adder_nodelay FA4(A[3], signed_B[3], C3,  S[3], Cout);

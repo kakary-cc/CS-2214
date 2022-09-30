@@ -1,0 +1,50 @@
+1)
+100
+011
+110
+111
+101
+001
+
+2)
+1110 10 11 0000
+If the value of Rg2 and Rg3 equals, set zero-flag to 1, otherwise, set zero-flag to 0;
+Increment program counter by 1.
+
+1010 00 11 0000
+Add the value of Rg0 onto Rg3;
+Increment program counter by 1.
+
+0010 00 00 0001
+Increment program counter by 1 regardless the value of zero-flag.
+
+3)
+{addi, RXX, Rg1, 4'b0011}
+Add 4'b0011 onto Rg1;
+Increment program counter by 1.
+
+{add , Rg1, Rg1, 4'b0011}
+Add the value of Rg1 onto Rg1;
+Increment program counter by 1.
+
+{jmp , RXX, RXX, 4'b0000}
+Program halts.
+
+{jmp , RXX, RXX, 4'b0001}
+Increment program counter by 1.
+
+4)
+myROM[3]
+myROM[5]
+myROM[6]
+
+5)
+225 times. The instruction in ROM cell 10 need to be executed 15 times to decrement the value in Rg1 from 0b1111 to 0b0000, and this process will be iterated for 15 times.
+
+15 times. The instruction in ROM cell 10 need to be executed 15 times to decrement the value in Rg0 from 0b1111 to 0b0000.
+
+0 time. The unconditional jump instruction in ROM cell 11 will prevent the instruction in ROM cell 12 from ever being executed.
+
+Infinite times. The jump instruction here in ROM cell 1 will keep executing and jumping to itself.
+
+Rg0 is given the initial value 0b1111, then the programs enters a loop. Within the each loop, Rg1 is given the initial value of 0b1111, and enters a smaller loop where each time the value in Rg1 is decremented by 1 until the value in Rg1 becomes 0b0000. Upon every completion of the inner loop the value in Rg0 is decremented by 1. The outer loop ends when the value in Rg0 becomes 0b0000. The program halts upon the completion of the outer loop.
