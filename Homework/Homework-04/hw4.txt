@@ -1,0 +1,11 @@
+1.
+myROM[0]
+
+3.
+(a) pc: from 4 bits to 10 bits
+(b) jmp/jz/jnz: imm from 4b to 10b
+instruction length 12b -> 18b
+(c) gp regs capacity: 4b -> 10b (imm value change)
+(d) cell capacity: 12b -> 18b
+(e) alu for general calc: 4b-> 10b
+pc alu 4b -> 10b

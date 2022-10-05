@@ -30,7 +30,7 @@ module E15Process(input clk);
    initial
      begin
 
-        `include "program1.v"   // load the program
+        `include "leq.v"   // load the program
         
         pc = 4'b0000;           // initialize the program counter
         

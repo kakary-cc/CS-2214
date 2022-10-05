@@ -1,0 +1,74 @@
+1)
+Differences: Are processors
+Have registers
+Similiarities: 12 bit cmd vs. 16 bit cmd
+4 regs vs. 8 regs.
+
+2)
+000 001 010 100 0100
+If $1 < $2, $3 will be set to 1, otherwise 0; program counter increments.
+
+010 0000000001111
+Change the value in program counter to `foobar`.
+
+001 001 000 0000001
+Store the value of ($0 + 1) into $1; program counter increments.
+
+101 001 000 0000000
+Store the value of $0 into memory cell [0 + $1]; program counter increments.
+
+3)
+add $0, $0, $0
+Add the value in $0 to the value in $0 and store the sum into $0; program counter increments.
+
+jeq $1, $0, some_label  # 126 + 1 + pc # CORRECT: -1
+Program counter increments by 1, then add the program counter by 126 if the value of $1 and $0 equals.
+
+lw $5, 31($2)
+Load the value of memory cell [$2 + 31] into $5; program counter increments.
+
+4)
+movi $5, 34
+nop
+
+add $3, $1, $2
+nop
+
+add $6, $5, $5
+nop
+
+slti $5, $4, 10
+nop
+
+addi $2, $1, 50
+jr $2
+
+slt $3, $2, $1
+jeq $3, $0, destination
+
+lw $1, 9($0)
+nop
+
+lw $2, hyoid($0)
+nop
+
+lw $3, 0($4)
+nop
+
+5)
+1st loop:
+  $3 = 16
+
+  $4 = 16
+  $3 = 17
+
+  33
+  18
+
+  51
+  19
+
+  70
+  20  # ANS
+
+
