@@ -1,0 +1,40 @@
+1. All branches of selection is already calculated for a multiplexer.
+
+2. PC ALU can only take 16 bit numbers.
+
+3.  jeq: 1 / subtract
+	j:   X
+
+4.  a.  * addi
+		FUNC_alu:	0 / add
+		MUX_alu: 	1 / immediate
+		MUX_pc: 	1 / pc+1
+		MUX_rf: 	0 / rA
+		MUX_tgt: 	0 / ALU
+		MUX_dst: 	0 / rB
+		WE_rf: 		1 / enable
+		WE_dmem: 	0 / disable
+	b.	* jr
+		FUNC_alu:	0 / add
+		MUX_alu: 	0 / register
+		MUX_pc: 	0 / ALU
+		MUX_rf: 	0 / rA
+		MUX_tgt: 	X
+		MUX_dst: 	X
+		WE_rf: 		0 / disable
+		WE_dmem: 	0 / disable
+	c. 	* lw
+		FUNC_alu:	0 / add
+		MUX_alu: 	1 / immediate
+		MUX_pc: 	1 / pc+1
+		MUX_rf: 	0 / rA
+		MUX_tgt: 	2 / dmem
+		MUX_dst: 	0 / rB
+		WE_rf: 		1 / enable
+		WE_dmem: 	0 / disable
+
+5.	j
+
+6.	jal
+
+7. this is a self-modifying program
