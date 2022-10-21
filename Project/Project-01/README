@@ -1,8 +1,7 @@
 Author:		Micheal Zhang
 			mz3164@nyu.edu
 
-Status:		Completed with Known Issues >>
-				* Parsing code cannot handle indentations correctly
+Status:		Completed
 
 Resource:	https://www.softwaretestinghelp.com/regex-in-cpp/
 

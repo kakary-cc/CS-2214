@@ -157,18 +157,28 @@ int main(int argc, char *argv[]) {
     vector< vector<string> > parsed_lines;
     vector<uint16_t> bin_codes;
     
-    // comment remove, label detection, code parse
+    // comment removal, label detection, code parse
     string line;
-    regex parser(R"([\s*|,|$|(|)]+)");
+    regex parser(R"([\s|,|$|(|)]+)");
     for (int i = 0; getline(f, line);) {
+        // comment removal
         size_t pos = line.find("#");
         if (pos != string::npos)
             line = line.substr(0, pos);
+        // leading space removal
+        while (line.size() > 0 && isspace(line[0]))
+            line = line.substr(1, line.size());
+        // case unification
         transform(line.begin(), line.end(), line.begin(), ::tolower);
+        // label detection
         while (line.find(":") < line.size()) {
             labels.insert(pair<string, int> (line.substr(0, line.find(":")), i));
             line = line.substr(line.find(":") + 1, line.size());
         }
+        // space between label and instruction removal
+        while (line.size() > 0 && isspace(line[0]))
+            line = line.substr(1, line.size());
+        // parse
         if(line.size() > 0) {
             sregex_token_iterator iter(line.begin(), line.end(), parser, -1);
             sregex_token_iterator end;
@@ -270,7 +280,7 @@ int main(int argc, char *argv[]) {
         if (op == ".fill") {
             bin_code = fill(parsed_line[1], labels);
         }
-
+        
         bin_codes.push_back(bin_code);
     }
 

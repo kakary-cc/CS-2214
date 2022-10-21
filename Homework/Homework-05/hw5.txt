@@ -1,0 +1,24 @@
+1.	movi $1, 1099
+	sw $1, 456($0)
+	halt
+
+2.	Another multiplexer needs to be added before the memory unit's dataValIn port;
+	The control singal for this multiplexer will have 2 possible values:  SRC1data or imm;
+	For the new instruction swi, the singal needs to be set to imm.
+
+	Other control wires:
+		FUNC_alu:	0 / add
+		MUX_alu: 	0 / register
+		MUX_pc: 	1 / pc + 1
+		MUX_rf: 	0 / rA
+		MUX_tgt: 	-
+		MUX_dst: 	-
+		WE_rf: 		0 / disable
+		WE_dmem: 	1 / enable
+
+3.	Computer B will run the program 20% faster.
+		A:  5 / 4 = 1.25e9 (instructions/second)
+		B:  3 / 2 = 1.50e9 (instructions/second)
+		1.50e9 / 1.25e9 = 120%
+
+4.	X
