@@ -11,6 +11,7 @@
 3.	jr $reg
 
 4.	lw $1, addr($0)
+	lw $2, 0($1)
 	halt
 	addr: .fill 8193
 

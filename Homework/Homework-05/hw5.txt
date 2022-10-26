@@ -1,6 +1,8 @@
-1.	movi $1, 1099
-	sw $1, 456($0)
-	halt
+1.		lw $1, val($0)
+		sw $1, 456($0)
+		halt
+	val:
+		.fill 1099
 
 2.	Another multiplexer needs to be added before the memory unit's dataValIn port;
 	The control singal for this multiplexer will have 2 possible values:  SRC1data or imm;
@@ -11,8 +13,8 @@
 		MUX_alu: 	0 / register
 		MUX_pc: 	1 / pc + 1
 		MUX_rf: 	0 / rA
-		MUX_tgt: 	-
-		MUX_dst: 	-
+		MUX_tgt: 	- / not significant
+		MUX_dst: 	- / not significant
 		WE_rf: 		0 / disable
 		WE_dmem: 	1 / enable
 
@@ -21,4 +23,38 @@
 		B:  3 / 2 = 1.50e9 (instructions/second)
 		1.50e9 / 1.25e9 = 120%
 
-4.	X
+4.	Multiplexer MUX_pc needs another input that takes the data from MDR;
+	For the new instruction jmpm, the control signal for MUX_pc needs to be set to MDR.
+
+	IF stage:
+		WE_ir = 1
+		WE_ram = 0
+		WE_reg = 0
+		WE_pc = 0
+		WE_a = 0
+		WE_b = 0
+		WE_alu = 0
+		MUX_addr = 1
+
+	ID stage:
+		WE_a = 1
+		WE_b = - / not significant
+		MUX_r1 = 4
+		MUX_b = - / not significant
+
+	EXEC stage:
+		aluOp = 0
+		WE_alu = 1
+		MUX_alu = 0
+
+	MEM stage:
+		MUX_addr = 0
+		WE_ram = 0
+
+	WB stage:
+		MUX_r1 = - / not significant
+		WE_reg = 0
+		MUX_tgt = - / not significant
+		WE_pc = 1
+		MUX_pcIncr = - / not significant
+		MUX_pc = 3 / MDR
