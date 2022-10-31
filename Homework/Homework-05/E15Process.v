@@ -83,6 +83,25 @@ module E15Process(input clk);
          begin
             // TODO: set mbEn, dbEn, addNotSub, and myState
             //       based on opCode
+            	dbEn = (opCode | 4'b1000 == 4'b1000) ? (
+			(dst == Rg0) ? bEn_R0 :
+            		(dst == Rg1) ? bEn_R1 :
+			(dst == Rg2) ? bEn_R2 :
+			(dst == Rg3) ? bEn_R3 : 0
+	    	) : 0;  // Not significant for jump instructions
+		mbEn = (opCode | 4'b1000 == 4'b1000) ? (
+			(opCode | 4'b0001 == 4'b0000) ? (
+				(src == Rg0) ? bEn_R0 :
+            			(src == Rg1) ? bEn_R1 :
+				(src == Rg2) ? bEn_R2 :
+				(src == Rg3) ? bEn_R3 : 0
+			) : bEn_Imm
+		) : 0;  // Not significant for jump instructions
+            addNotSub = (opCode | 4'b1000 == 4'b1000) ? (
+            	(opCode | 4'b0100 == 4'b0000) ? 1 :  // Move and Add
+            		0  // Subtract and Compare
+            ) : 0;  // Not significant for jump instructions
+            myState <= exec;
          end
        
        // Exec phase:
@@ -103,6 +122,19 @@ module E15Process(input clk);
                    mbEn <= bEn_ALU;
                    aluOut <= resVal;
                    zFlag <= zVal;
+                   pcIncr <= 4'b0001;  // Increment by 1
+                end
+              jmp:
+                begin
+                   pcIncr <= immData;
+                end
+              jz:
+                begin
+                   pcIncr <= (zFlag == 1) ? immData : 4'b0001;
+                end
+              jnz:
+                begin
+                   pcIncr <= (zFlag == 0) ? immData : 4'b0001;
                 end
             endcase
             // TODO: set pcIncr
@@ -115,6 +147,26 @@ module E15Process(input clk);
        store:
          begin
             // TODO: store value from mBus into register, if appropriate
+ 
+                  case(dst)
+                    Rg0:
+                      begin
+                        r0 <= aluOut;
+                      end
+                    Rg1:
+                      begin
+                        r1 <= aluOut;
+                      end
+                    Rg2:
+                      begin
+                        r2 <= aluOut;
+                      end
+                    Rg3:
+                      begin
+                        r3 <= aluOut;
+                      end
+                    endcase
+
             pc <= pcRes;
             myState <= fetch;
          end
