@@ -1,0 +1,8 @@
+Author:		Micheal Zhang
+			mz3164@nyu.edu
+
+Status:		Completed
+
+Resource:	No
+
+Design:		Instructions are categorized using switch-case syntaxs in a way inspired by the manual and similiarities among them in regard to arguments to reuse codes for parsing arguments.

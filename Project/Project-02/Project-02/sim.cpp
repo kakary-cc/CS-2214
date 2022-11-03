@@ -1,16 +1,13 @@
 //
-//  main.cpp
+//  CS 2214
 //  Project-02
 //
-//  Created by MacBook Pro on 10/31/22.
+//  Jeff Epstein
+//  Starter code
 //
-
-/*
-CS-UY 2214
-Jeff Epstein
-Starter code for E20 simulator
-sim.cpp
-*/
+//  Mingxuan Zhang
+//  E20 simulator
+//
 
 #include <cstddef>
 #include <iostream>
@@ -37,7 +34,7 @@ size_t const static REG_SIZE = 1<<16;
     @param f Open file to read from
     @param mem Array represetnting memory into which to read program
 */
-void load_machine_code(ifstream &f, unsigned mem[]) {
+void load_machine_code(ifstream &f, uint16_t mem[]) {
     regex machine_code_re("^ram\\[(\\d+)\\] = 16'b(\\d+);.*$");
     size_t expectedaddr = 0;
     string line;
@@ -72,7 +69,7 @@ void load_machine_code(ifstream &f, unsigned mem[]) {
     @param memory Final value of memory
     @param memquantity How many words of memory to dump
 */
-void print_state(unsigned pc, unsigned regs[], unsigned memory[], size_t memquantity) {
+void print_state(uint16_t pc, uint16_t regs[], uint16_t memory[], size_t memquantity) {
     cout << setfill(' ');
     cout << "Final state:" << endl;
     cout << "\tpc=" <<setw(5)<< pc << endl;
@@ -94,7 +91,47 @@ void print_state(unsigned pc, unsigned regs[], unsigned memory[], size_t memquan
         cout << endl;
 }
 
-/**
+/*
+    retrieve function
+    for instructions with 3 register arguments
+*/
+void retrieve(uint16_t inst, uint8_t* regA, uint8_t* regB, uint8_t* regDst) {
+    *regA = (inst >> 10) & 0b111;
+    *regB = (inst >> 7) & 0b111;
+    *regDst = (inst >> 4) & 0b111;
+}
+
+/*
+    retrieve function
+    for instructions with 2 register arguments
+*/
+void retrieve(uint16_t inst, uint8_t* regA, uint8_t* regB, uint16_t* imm) {
+    *regA = ((inst >> 10) & 0b111);
+    *regB = ((inst >> 7) & 0b111);
+    *imm = inst & 0b1111111;
+}
+
+/*
+    retrieve function
+    for instructions with no register argument
+*/
+void retrieve(uint16_t inst, uint16_t* imm) {
+    *imm = inst & 0b1111111111111;
+}
+
+/*
+    convert a 7-bit two's complement number to a C++ signed number
+*/
+int8_t to_signed(uint16_t num) {
+    int8_t res = num;
+    if ((num >> 6) == 0b1) {
+        res = ~num + 0b1 - (0b1 << 7);
+        res *= -1;
+    }
+    return res;
+}
+
+/*
     Main function
     Takes command-line args as documented below
 */
@@ -132,15 +169,101 @@ int main(int argc, char *argv[]) {
 
     ifstream f(filename);
     if (!f.is_open()) {
-        cerr << "Can't open file "<<filename<<endl;
+        cerr << "Can't open file "<< filename << endl;
         return 1;
     }
     // TODO: your code here. Load f and parse using load_machine_code
-
+    uint16_t pc = 0;
+    uint16_t regs[NUM_REGS] = {0};
+    uint16_t mem[MEM_SIZE] = {0};
+    size_t memquantity = 128; // MEM_SIZE
+    load_machine_code(f, mem);
     // TODO: your code here. Do simulation.
-
+    uint8_t regA, regB, regDst;
+    uint16_t imm;
+    int8_t signed_imm;
+    for (bool halt = false; !halt; pc++) {
+        // ignore the most significant 3 bits of pc
+        uint16_t inst = mem[pc & 8191];
+        switch(inst >> 13) {  // opCode
+            // -- THREE REGISTER ARGUMENTS INSTRUCTIONS --
+            case 0b000:
+                retrieve(inst, &regA, &regB, &regDst);
+                switch (inst & 0b1111) {
+                    case 0b0000:  // add
+                        regs[regDst] = regs[regA] + regs[regB];
+                        break;
+                    case 0b0001:  // sub
+                        regs[regDst] = regs[regA] - regs[regB];
+                        break;
+                    case 0b0010:  // or
+                        regs[regDst] = regs[regA] | regs[regB];
+                        break;
+                    case 0b0011:  // and
+                        regs[regDst] = regs[regA] & regs[regB];
+                        break;
+                    case 0b0100:  // slt
+                        regs[regDst] = regs[regA] < regs[regB];
+                        break;
+                    case 0b1000:  // jr
+                        if (regs[regA] == pc)
+                            halt = true;
+                        pc = regs[regA] - 1;
+                        break;
+                }
+                break;
+            // -- TWO REGISTER ARGUMENTS INSTRUCTIONS --
+            case 0b111:  // slti
+                // imm unsigned
+                retrieve(inst, &regA, &regB, &imm);
+                regs[regB] = regs[regA] < imm;
+                break;
+            case 0b100:  // lw
+                // imm signed
+                retrieve(inst, &regA, &regB, &imm);
+                signed_imm = to_signed(imm);
+                regs[regB] = mem[regs[regA] + signed_imm];
+                break;
+            case 0b101:  // sw
+                // imm signed
+                retrieve(inst, &regA, &regB, &imm);
+                signed_imm = to_signed(imm);
+                mem[regs[regA] + signed_imm] = regs[regB];
+                break;
+            case 0b110:  // jeq
+                // imm signed
+                retrieve(inst, &regA, &regB, &imm);
+                if (regs[regA] != regs[regB])
+                    break;
+                signed_imm = to_signed(imm);
+                if (signed_imm == -1)
+                    halt = true;
+                pc += signed_imm;
+                break;
+            case 0b001:  // addi
+                // imm signed
+                retrieve(inst, &regA, &regB, &imm);
+                signed_imm = to_signed(imm);
+                regs[regB] = regs[regA] + signed_imm;
+                break;
+            // -- NO REGISTER ARGUMENT INSTRUCTIONS --
+            case 0b010:  // j
+                retrieve(inst, &imm);
+                if (pc == imm)
+                    halt = true;
+                pc = imm - 1;
+                break;
+            case 0b011:  // jal
+                retrieve(inst, &imm);
+                if (pc == imm)
+                    halt = true;
+                regs[7] = pc + 1;
+                pc = imm - 1;
+                break;
+        }
+    }
     // TODO: your code here. print the final state of the simulator before ending, using print_state
-
+    print_state(pc, regs, mem, memquantity);
     return 0;
 }
 //ra0Eequ6ucie6Jei0koh6phishohm9
