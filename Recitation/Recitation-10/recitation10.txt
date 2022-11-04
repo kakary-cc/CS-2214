@@ -1,0 +1,33 @@
+1.	a.	2^4 = 16 cells = 16 bytes
+	b.	2^6 * 2^4 = 64 * 16 cells = 1024 bytes
+
+	8 row, blocksize 1
+		addr		12 13 6  0  2  5  14 14 1  8
+2.		block_id	12 13 6  0  2  5  14 14 1  8
+	a.	row			4  5  6  0  2  5  6  6  1  0
+	b.	tag			1  1  0  0  0  0  1  1  0  1
+	c.	h/m 		m  m  m  m  m  e  e  h  m  e
+
+	4 rows, blocksize 2
+		addr		12 13 6  0  2  5  14 14 1  8
+3.		block_id	6  6  3  0  1  2  7  7  0  4
+	a.	row 		2  2  3  0  1  2  3  3  0  0
+	b.	tag			1  1  0  0  0  0  1  1  0  1
+	c.	h/m 		m  h  m  m  m  e  e  h  h  e
+
+	2 rows, blocksize 4
+		addr		12 13 6  0  2  5  14 14 1  8
+4.		block_id	3  3  1  0  0  1  3  3  0  2
+	a.	row 		1  1  1  0  0  1  1  1  0  0
+	b.	tag			1  1  0  0  0  0  1  1  0  1
+	c.	h/m 		m  h  e  m  h  h  e  h  h  e
+
+5.	a.	(2 * 2^20) / 512 = 4096 blocks
+	b.	lg32 = 5 bits
+	c.	lg4096 = 12 bits
+	d.	32 - 5 - 12 = 15 bits
+
+6.	a.	1 miss in 32 queries
+		hit ratio = 96.875%
+		total size does not affect
+	b.	5 + 80 * (1 / 32) = 7.5 ns
