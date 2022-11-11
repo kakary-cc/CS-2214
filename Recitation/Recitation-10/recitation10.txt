@@ -23,9 +23,9 @@
 	c.	h/m 		m  h  e  m  h  h  e  h  h  e
 
 5.	a.	(2 * 2^20) / 512 = 4096 blocks
-	b.	lg32 = 5 bits
+	b.	lg512 = 9 bits
 	c.	lg4096 = 12 bits
-	d.	32 - 5 - 12 = 15 bits
+	d.	32 - 9 - 12 = 11 bits
 
 6.	a.	1 miss in 32 queries
 		hit ratio = 96.875%
