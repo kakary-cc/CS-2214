@@ -1,0 +1,57 @@
+2.
+	4 + (1 - 98%) * 40 = 4.8 (ns)
+
+
+3.
+	In the shown architecture using write-back caches can pose problems. When the processor writes to the memory, the data will be stored into the corresponding cache with and marked dirty. The new data won't be updated to RAM until an eviction happens. If another processor attempts to access the same data before the eviction and update happens, the second processor will retrieve an outdated data.
+
+	A way to mitigate the problem is to let the processor notify other 3 processors to store or update (if already in their caches) the coressponding data whenever the memory write is performed.
+
+
+4.
+	Offset: 9 bits
+	L1: 1024 blocks / 1024 sets / Set: 10 bits
+	L2: 8192 blocks / 8192 sets / Set: 13 bits
+	a.
+		L1: Tag: 64 - 9 - 10 = 45 bits
+		L2: Tag: 64 - 9 - 13 = 42 bits
+	b.
+		L1: 1024 * (512 * 8 + 1 + 45) = 4241408 bits
+		L2: 8192 * (512 * 8 + 1 + 42) = 33906688 bits
+	c.
+		1 / 3 GHz = 1/3 ns
+		1/3 + 5%(10) + 3%(10 + 100) = 62/15 ns
+		CPI = (62/15) / (1/3) = 12.4
+
+
+5.
+		addr 40 47 50 42 81 83 85 57 46
+	a.
+		bid  10 11 12 10 20 20 21 14 11
+		set  2  3  4  2  4  4  5  6  3
+		res  MC MC MC H  M  H  MC MC H
+		hit ratio = 3 / 9 = 33.3%
+	b.
+		bid  10 11 12 10 20 20 21 14 11
+		res  MC MC MC H  MC H  MC MC H
+		hit ratio = 3 / 9 = 33.3%
+	c.
+		bid  5  5  6  5  10 10 10 7  5
+		set  1  1  2  1  2  2  2  3  1
+		res  MC H  MC H  M  H  H  MC H
+		hit ratio = 5 / 9 = 55.6%
+	d.
+		bid  5  5  6  5  10 10 10 7  5
+		set  1  1  0  1  0  0  0  1  1
+		res  MC H  MC H  MC H  H  MC H
+		hit ratio = 5 / 9 = 55.6%
+
+
+6.
+	| Addr | L1 tag | L1 h/m | L2 row | L2 tag | L2 h/m | -------|--------|--------|--------|--------|---------
+	| 53   | 13     | m      | 0      | 3      | m      |
+	| 50   | 12     | m      | 0      | 3      | h      |
+	| 52   | 13     | h      |        |        |        |
+	| 40   | 10     | m      | 1      | 2      | m      |
+	| 60   | 15     | m      | 1      | 3      | m      |
+	| 52   | 13     | m      | 0      | 3      | h      |
