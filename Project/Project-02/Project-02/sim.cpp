@@ -72,10 +72,10 @@ void load_machine_code(ifstream &f, uint16_t mem[]) {
 void print_state(uint16_t pc, uint16_t regs[], uint16_t memory[], size_t memquantity) {
     cout << setfill(' ');
     cout << "Final state:" << endl;
-    cout << "\tpc=" <<setw(5)<< pc << endl;
+    cout << "\tpc=" << setw(5) << pc << endl;
 
-    for (size_t reg=0; reg<NUM_REGS; reg++)
-        cout << "\t$" << reg << "="<<setw(5)<<regs[reg]<<endl;
+    for (size_t reg=0; reg < NUM_REGS; reg++)
+        cout << "\t$" << reg << "=" << setw(5) << regs[reg] << endl;
 
     cout << setfill('0');
     bool cr = false;
@@ -185,6 +185,7 @@ int main(int argc, char *argv[]) {
     for (bool halt = false; !halt; pc++) {
         // ignore the most significant 3 bits of pc
         uint16_t inst = mem[pc & 8191];
+        regs[0] = 0;
         switch(inst >> 13) {  // opCode
             // -- THREE REGISTER ARGUMENTS INSTRUCTIONS --
             case 0b000:

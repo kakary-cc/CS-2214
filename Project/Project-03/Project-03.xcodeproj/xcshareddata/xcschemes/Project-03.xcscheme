@@ -54,7 +54,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "demo.bin"
+            argument = "demo.bin --cache 4,1,2,8,4,2"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
