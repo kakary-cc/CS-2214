@@ -1,0 +1,1 @@
+g++ -S -march=x86-64 -m32 -O0 -masm=intel -fno-asynchronous-unwind-tables -fno-dwarf2-cfi-asm -g0 -fno-pie test.cpp

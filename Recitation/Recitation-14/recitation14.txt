@@ -16,4 +16,10 @@
     ...
 
 5.
-    ...
+    a.
+    b.	.zero 4
+    c.	.zero 40
+    d.
+    e.
+    f.	same as a)
+    g.	ret
