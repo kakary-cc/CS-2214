@@ -1,0 +1,4 @@
+nasm -f elf -gstabs avg.asm
+ld -o avg -m elf_i386 avg.o
+./avg
+echo $?

@@ -1,2 +1,46 @@
 1.
-	
+    my_data:        56
+    my_data + 1:    34
+    my_data + 2:    11
+    my_data + 3:    cd
+    my_data + 4:    ab
+    my_data + 5:    cd
+    my_data + 6:    ab
+
+2.
+    a.
+        The program calculates the summation of the absolute values
+        of differences between all two adjacent values in the array.
+
+        The final value of [d] is 0x78.
+
+        arr:        0x05
+        arr + 1:    0x00
+        arr + 2:    0x32
+        arr + 3:    0x00
+        arr + 4:    0x14
+        arr + 5:    0x00
+        arr + 6:    0x1E
+        arr + 7:    0x00
+        arr + 8:    0x00
+        arr + 9:    0x00
+    b.
+        The array ends with 0. The program compares the current
+        word loaded from arr (edx) to 0 to decide if the end
+        of the array is reached.
+    c.
+        2 bytes. The values are loaded using `dw`, which loads
+        words into the memory.
+    d.
+        4 bytes. The values are loaded using `dd`, which loads
+        double words into the memory.
+    e.
+        10 bytes.
+    f.
+        The program negates the value of eax unless the sign bit
+        is not set (eax is positive).
+    g.
+        To initialize registers to be used. If this is not being
+        done, the registers may contain non-zero values left by
+        the execution of other programs, causing unexpected program
+        behaviors.
