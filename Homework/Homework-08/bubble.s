@@ -13,7 +13,8 @@ repeat:
 
     for:
         jeq $3, $1, endfor
-        
+        addi $1, $1, 1
+
         addi $3, $3, -1
         lw $4, array($3)
         addi $3, $3, 1
@@ -29,7 +30,6 @@ repeat:
 
         movi $2, 1
         dont_swap:
-            addi $1, $1, 1
             j for
 
     endfor:

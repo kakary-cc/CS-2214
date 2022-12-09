@@ -1,0 +1,26 @@
+2.
+	16 KB = 2^14 bytes
+	Offset: 14 bits
+
+	(3 + 36 - 14) * 2^(40 - 14)
+	= 25 * 2^26
+	= 1677721600 bits
+	= 209715200 bytes
+
+3.
+	MISS - 149
+	HIT - 128
+	MISS - 5, Protection Fault
+	HIT - 130
+	MISS - Page Fault
+	MISS - Page Fault
+	HIT - 132
+	HIT - 131
+
+4.
+	struct foo {
+            int a, b, c;
+    } bar[2048] = {{a0, b0}, {a1, b1}, ...};
+
+    for (int i = 0; i < 2048; i++)
+        bar[i].c = bar[i].a + bar[i].b;
