@@ -1,0 +1,4 @@
+nasm -f elf -gstabs pr.asm
+ld -o pr -m elf_i386 pr.o
+./pr
+echo $?

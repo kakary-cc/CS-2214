@@ -1,3 +1,3 @@
 nasm -f elf -gstabs greet.asm
-ld -o avg -m elf_i386 greet.o
+ld -o greet -m elf_i386 greet.o
 ./greet

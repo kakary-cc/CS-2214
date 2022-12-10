@@ -1,19 +1,21 @@
 ; The data section is for initialized data
 section .data
 
-; hello_text is the address of the beginning of the string.
 ; The string is simply a byte array, created with db.
 ; Note that the string includes a newline character (10).
-hello_text: db "Hello, world", 10
-hello_text_end:
+prompt: db "Please enter your name: "
+prompt_end:
+greet: db "Nice to meet you, "
+greet_end:
+input: db "abcdefghijklmnopqrst"
+input_end:
 
-; hello_text_len is the difference between the address of the
-; byte after the string and the address of the first byte
-; of the string, in other words the length of the string (in bytes).
 ; The EQU syntax declares a new compile-time symbol,
 ; similar to a label, but in this case hello_text_len
 ; designates a difference between addresses, not an address.
-hello_text_len equ hello_text_end-hello_text
+prompt_len equ prompt_end-prompt
+greet_len equ greet_end-greet
+input_len equ input_end-input
 
 ; The text section is for code
 section .text
@@ -22,16 +24,29 @@ global _start
 ; Special symbol _start identifies entry point
 _start:
 
-; Print the given string
+; Print the prompt
     mov eax, 4                ; select write syscall
     mov ebx, 1                ; file descriptor: stdout
-    mov ecx, hello_text       ; address of string
-    mov edx, hello_text_len   ; length of string
-    int 80h                   ; do it
+    mov ecx, prompt           ; address of string
+    mov edx, prompt_len       ; length of string
+    int 80h
 
-; We're done, tell the OS to kill us
-    mov eax, 1                ; select exit syscall
-    mov ebx, 0                ; exit status
-    int 80h                   ; do it
+; Taking the name
+    mov eax, 3                ; select read syscall
+    mov ebx, 0                ; file descriptor: stdin
+    mov ecx, input            ; address of string
+    mov edx, input_len        ; length of string
+    int 80h
 
-; We never get here
+; Greeting
+    mov edx, eax              ; length of string readed
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, greet
+    add edx, greet_len        ; length of greet + input
+    int 80h
+
+; Done
+    mov eax, 1
+    mov ebx, 0
+    int 80h
