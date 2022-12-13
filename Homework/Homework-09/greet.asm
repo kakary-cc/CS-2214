@@ -7,15 +7,15 @@ prompt: db "Please enter your name: "
 prompt_end:
 greet: db "Nice to meet you, "
 greet_end:
-input: db "abcdefghijklmnopqrst"
+input: times 20 db "0"
 input_end:
 
 ; The EQU syntax declares a new compile-time symbol,
 ; similar to a label, but in this case hello_text_len
 ; designates a difference between addresses, not an address.
-prompt_len equ prompt_end-prompt
-greet_len equ greet_end-greet
-input_len equ input_end-input
+prompt_len equ prompt_end - prompt
+greet_len equ greet_end - greet
+input_len equ input_end - input
 
 ; The text section is for code
 section .text
